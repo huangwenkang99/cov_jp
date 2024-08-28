@@ -1,4 +1,4 @@
-# Read Me
+# ReadMe
 
 [87582eae-361c-448a-9442-e4d6ce24bcf8_Data.csv],[confirmed_cases_cumulative_daily.csv],[number_of_deaths_daily.csv],[vaccination_data5.xlsx] are the original files. [reshaped_economic_data.csv],[yearly_confirmed_cases.csv],[yearly_vaccination_totals.csv] are the files that are reshaped by extracting the data from the original files
 
