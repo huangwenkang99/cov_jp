@@ -1,0 +1,12 @@
+Country Name,Country Code,Series Name,Series Code,2018 [YR2018],2019 [YR2019],2020 [YR2020],2021 [YR2021],2022 [YR2022],2023 [YR2023]
+Japan,JPN,GDP growth (annual %),NY.GDP.MKTP.KD.ZG,0.643391023460339,-0.402169200910933,-4.14711889947692,2.55932023865617,0.954736937781391,1.92305553064716
+Japan,JPN,GNI growth (annual %),NY.GNP.MKTP.KD.ZG,0.00467792261531486,-0.173562558676423,-3.52381513960844,2.3570474902111,-0.490908006173996,..
+Japan,JPN,Current health expenditure (% of GDP),SH.XPD.CHEX.GD.ZS,10.74,10.97,11,10.82,..,..
+Japan,JPN,Out-of-pocket expenditure (% of current health expenditure),SH.XPD.OOPC.CH.ZS,12.99,12.9,11.94,12.03,..,..
+Japan,JPN,"Unemployment, total (% of total labor force) (national estimate)",SL.UEM.TOTL.NE.ZS,2.467,2.351,2.809,2.828,2.6,2.6
+Japan,JPN,Final consumption expenditure (annual % growth),NE.CON.TOTL.KD.ZG,0.43532845044551,0.0401895183673702,-2.62028505977648,1.50467728618935,2.01404878505144,..
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+Data from database: World Development Indicators,,,,,,,,,
+Last Updated: 06/28/2024,,,,,,,,,
