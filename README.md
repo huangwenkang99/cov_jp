@@ -2,6 +2,8 @@
 Overview
 This Python program analyzes the relationship between COVID-19 confirmed cases, vaccination data, and economic indicators (GDP growth rate and unemployment rate) in Japan from 2020 to 2023. Using a linear regression model, the program forecasts GDP growth rates, unemployment rates, and confirmed COVID-19 cases for the years 2024 to 2026. The results are visualized through a series of plots, which allow for a deeper understanding of the interplay between the pandemic and economic recovery.
 
+[87582eae-361c-448a-9442-e4d6ce24bcf8_Data.csv],[confirmed_cases_cumulative_daily.csv],[number_of_deaths_daily.csv],[vaccination_data5.xlsx] are the original files. [reshaped_economic_data.csv],[yearly_confirmed_cases.csv],[yearly_vaccination_totals.csv] are the files that are reshaped by extracting the data from the original files
+
 Prerequisites
 Before running this program, ensure you have the following Python packages installed:
 
