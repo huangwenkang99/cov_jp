@@ -1,73 +1,58 @@
 # cov_jp
-Overview
-This Python program analyzes the relationship between COVID-19 confirmed cases, vaccination data, and economic indicators (GDP growth rate and unemployment rate) in Japan from 2020 to 2023. Using a linear regression model, the program forecasts GDP growth rates, unemployment rates, and confirmed COVID-19 cases for the years 2024 to 2026. The results are visualized through a series of plots, which allow for a deeper understanding of the interplay between the pandemic and economic recovery.
-
 [87582eae-361c-448a-9442-e4d6ce24bcf8_Data.csv],[confirmed_cases_cumulative_daily.csv],[number_of_deaths_daily.csv],[vaccination_data5.xlsx] are the original files. [reshaped_economic_data.csv],[yearly_confirmed_cases.csv],[yearly_vaccination_totals.csv] are the files that are reshaped by extracting the data from the original files
 
-Prerequisites
-Before running this program, ensure you have the following Python packages installed:
+This repository contains the cov_jp_2.py script, which analyzes the impact of the COVID-19 pandemic on Japan's economy and public health using historical data. The script examines the relationships between key economic indicators, such as GDP growth rate and unemployment rate, and COVID-19 confirmed cases for the years 2021 to 2023. It also predicts future trends for the years 2024 to 2026 using a linear regression model.
 
-pandas
-statsmodels
-matplotlib
-sklearn
-numpy
-You can install these packages using pip:
-
-bash
-pip install pandas statsmodels matplotlib scikit-learn numpy
-Datasets
-The program requires the following datasets to be available in CSV format:
-
-Vaccination Data: yearly_vaccination_totals.csv
-Confirmed Cases Data: yearly_confirmed_cases.csv
-Economic Data: reshaped_economic_data.csv
-Ensure that the datasets are correctly formatted and located in the appropriate directory.
-
-Program Workflow
-Loading Data: The program loads vaccination, confirmed COVID-19 cases, and economic data from the respective CSV files.
-
-Data Cleaning and Preparation:
-
-Duplicates in the economic data are removed.
-The economic data is pivoted to have one column per economic indicator (e.g., GDP growth, unemployment rate).
-The datasets are merged based on the Year column.
-Missing values are handled by replacing them with NaN and using forward fill.
-Data Filtering: The merged dataset is filtered to include data from 2020 to 2023.
-
-Visualization:
-
-Plot 1: Compares the unemployment rate and GDP growth rate from 2020 to 2023.
-Plot 2: Compares the GDP growth rate and confirmed COVID-19 cases from 2020 to 2023.
-Plot 3: Compares the unemployment rate and confirmed COVID-19 cases from 2020 to 2023.
-Linear Regression Model:
-
-The program uses a linear regression model to predict GDP growth rates based on the unemployment rate and confirmed COVID-19 cases.
-The model is trained on data from 2020 to 2023.
-Forecasting (2024-2026):
-
-The program predicts GDP growth rates, unemployment rates, and confirmed COVID-19 cases for the years 2024 to 2026.
-The predicted values are displayed in a DataFrame.
-Prediction Visualization:
-
-Group 1: Plots the predicted GDP growth rate and unemployment rate for 2024 to 2026.
-Group 2: Plots the predicted confirmed COVID-19 case rate for 2024 to 2026.
-Usage
-Ensure the required datasets are in the correct directory.
-Run the Python script using the following command:
-bash
-python your_script_name.py
-The program will display the plots and predicted values in the console.
-Output
-Predicted Values (2024-2026): The program will output a DataFrame containing the predicted GDP growth rate, unemployment rate, and confirmed COVID-19 cases for the years 2024, 2025, and 2026.
-Plots: The program generates several plots to visualize the actual and predicted relationships between the pandemic and economic indicators.
+Features
+Data Processing: The script loads, cleans, and processes data from multiple sources, including vaccination totals, confirmed COVID-19 cases, and economic indicators.
+Data Visualization: The script generates plots to visualize the relationship between economic and public health variables, including:
+Actual GDP growth rate vs. Unemployment rate
+Actual COVID-19 confirmed cases
+Predictive Modeling: The script uses a linear regression model to predict:
+Future GDP growth rates
+Future unemployment rates
+Future confirmed COVID-19 cases
+Text Output: The script outputs the actual and predicted values for key indicators, providing a clear summary of both historical data and forecasted trends.
 Data Sources
-The data used in this program is sourced from:
+Vaccination Data: Contains yearly totals of vaccinations administered in Japan.
+Confirmed Cases Data: Includes yearly confirmed COVID-19 cases in Japan.
+Economic Data: Includes various economic indicators such as GDP growth rates and unemployment rates, reshaped for analysis.
 
-Ministry of Health, Labor and Welfare of Japan
-World Bank Database
-License
-This program is open-source and free to use under the MIT License. You are free to modify, distribute, and use the code as needed.
+Prerequisites
+Python 3.x
+Required Python packages: pandas, matplotlib, scikit-learn, numpy
+You can install the required packages using pip:
 
-Contact
-For any questions or issues, please contact the developer at [s2022011@stu.musashino-u.ac.jp].
+pip install pandas matplotlib scikit-learn numpy
+
+Usage
+Load Data: The script loads data from CSV files provided in the repository.
+Data Processing: The script processes the data by removing duplicates, handling missing values, and merging datasets based on the 'Year' column.
+Data Visualization: The script generates visual plots to analyze historical data (2021-2023) and predicted data (2024-2026).
+Modeling and Prediction: The script trains a linear regression model using historical data and makes predictions for future years.
+Running the Script
+To run the script, use the following command:
+
+python cov_jp_2.py
+
+Output
+Text Output: The script outputs the actual and predicted values for GDP growth rates, unemployment rates, and confirmed COVID-19 cases for the specified years.
+Plots: The script generates plots comparing actual and predicted data.
+Example Output
+
+Actual Values (2021-2023):
+Year: 2021
+  Actual GDP Growth Rate: X.XX%
+  Actual Unemployment Rate: Y.YY%
+  Actual Confirmed Cases: ZZZZZZ
+
+Predicted Values for 2024-2026:
+Year: 2024
+  Predicted GDP Growth Rate: X.XX%
+  Predicted Unemployment Rate: Y.YY%
+  Predicted Confirmed Cases: ZZZZZZ
+
+
+Acknowledgments
+Data Sources: Ministry of Health, Labor and Welfare of Japan, and the World Bank database.
+Inspiration: This project was inspired by ongoing efforts to understand the economic and public health impacts of the COVID-19 pandemic and to forecast future trends.
