@@ -8,15 +8,15 @@ Original file is located at
 """
 
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
 import numpy as np
-from google.colab import drive
-drive.mount('/content/drive')
+import matplotlib.pyplot as plt
+
 # Load the datasets
-vaccination_data = pd.read_csv('/content/drive/MyDrive/colabnotebooks/yearly_vaccination_totals.csv')
-confirmed_cases_data = pd.read_csv('/content/drive/MyDrive/colabnotebooks/yearly_confirmed_cases.csv')
-economic_data = pd.read_csv('/content/drive/MyDrive/colabnotebooks/reshaped_economic_data.csv')
+vaccination_data = pd.read_csv('yearly_vaccination_totals.csv')
+confirmed_cases_data = pd.read_csv('daily_average_confirmed_cases_no_decimal_corrected.csv')
+economic_data = pd.read_csv('reshaped_economic_data.csv')
 
 # Identify and remove duplicates in the economic data
 economic_data = economic_data.drop_duplicates(subset=['Year', 'Series Name'])
@@ -34,13 +34,16 @@ merged_data = merged_data.ffill()
 # Convert all columns to numeric where applicable
 merged_data = merged_data.apply(pd.to_numeric, errors='ignore')
 
-# Filter data for the years 2021 to 2023 (actual data)
-filtered_data = merged_data[(merged_data['Year'] >= 2021) & (merged_data['Year'] <= 2023)]
+# Filter data for the years 2020 to 2023
+filtered_data = merged_data[(merged_data['Year'] >= 2020) & (merged_data['Year'] <= 2023)]
 
-# Prepare data for comparison plots (actual)
+# Correct column name for confirmed cases
+confirmed_rate_column = 'Daily Average Confirmed Cases'
+confirmed_rate = filtered_data[confirmed_rate_column]
+
+# Prepare data for comparison plots
 unemployment_rate = filtered_data['Unemployment, total (% of total labor force) (national estimate)']
 gdp_growth_rate = filtered_data['GDP growth (annual %)']
-confirmed_rate = filtered_data['ALL']  # Assuming 'ALL' represents the confirmed cases rate
 
 # Print actual GDP growth rate, actual unemployment rate, and actual confirmed cases rate
 print("Actual Values (2021-2023):")
@@ -50,21 +53,21 @@ for year, gdp, unemp, conf in zip(filtered_data['Year'], gdp_growth_rate, unempl
     print(f"  Actual Unemployment Rate: {unemp:.2f}%")
     print(f"  Actual Confirmed Cases: {conf}\n")
 
-# Plot 1: Actual GDP Growth Rate and Unemployment Rate vs. Actual Confirmed Rate (2021-2023)
+# Plot 1: Actual GDP Growth Rate, Unemployment Rate, and Daily Average Confirmed Rate (2020-2023)
 plt.figure(figsize=(14, 12))
 
 plt.subplot(2, 1, 1)
-plt.plot(filtered_data['Year'], gdp_growth_rate, marker='o', linestyle='-', label='Actual GDP Growth Rate', color='red')
+plt.plot(filtered_data['Year'], gdp_growth_rate, marker='o', label='Actual GDP Growth Rate', color='red')
 plt.plot(filtered_data['Year'], unemployment_rate, marker='x', linestyle='--', label='Actual Unemployment Rate', color='blue')
-plt.title('Actual GDP Growth Rate and Unemployment Rate (2021-2023)')
+plt.title('Actual GDP Growth Rate and Unemployment Rate (2020-2023)')
 plt.xlabel('Year')
 plt.ylabel('Rate (%)')
 plt.legend()
 plt.grid(True)
 
 plt.subplot(2, 1, 2)
-plt.plot(filtered_data['Year'], confirmed_rate, marker='s', linestyle='--', label='Actual Confirmed Rate', color='green')
-plt.title('Actual Confirmed Case Rate (2021-2023)')
+plt.plot(filtered_data['Year'], confirmed_rate, marker='s', linestyle='-', label='Actual Daily Average Confirmed Rate', color='green')
+plt.title('Actual Daily Average Confirmed Rate (2020-2023)')
 plt.xlabel('Year')
 plt.ylabel('Confirmed Rate')
 plt.legend()
@@ -73,23 +76,31 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
 
-# Prepare the model for prediction (using 2021-2023 data)
-X = filtered_data[['Unemployment, total (% of total labor force) (national estimate)', 'ALL']]
+# Prepare the model for prediction (using 2020-2023 data)
+X = filtered_data[['Unemployment, total (% of total labor force) (national estimate)', confirmed_rate_column]]
 y = gdp_growth_rate
 
-model = LinearRegression()
-model.fit(X, y)
+# Use Polynomial Features to allow for more complex relationships
+poly = PolynomialFeatures(degree=2)
+X_poly = poly.fit_transform(X)
 
-# Predicting GDP growth rate, unemployment rate, and confirmed rate for future years (2024-2026)
+# Train the polynomial regression model
+poly_model = LinearRegression()
+poly_model.fit(X_poly, y)
+
+# Predicting GDP growth rate based on the future unemployment and confirmed rates
+# Predicting for hypothetical future values for 2024-2026
 future_unemployment_rates = np.array([2.5, 2.6, 2.7])  # Example future values
-future_confirmed_rates = np.array([1e6, 1.1e6, 1.2e6])  # Example future values, replace with realistic data
+future_confirmed_rates = np.array([1000000, 1100000, 1200000])  # Example future values
 
 future_data = pd.DataFrame({
     'Unemployment, total (% of total labor force) (national estimate)': future_unemployment_rates,
-    'ALL': future_confirmed_rates
+    confirmed_rate_column: future_confirmed_rates
 })
 
-gdp_forecasts = model.predict(future_data)
+# Generate predictions for future GDP growth rate
+X_future_poly = poly.transform(future_data)
+gdp_forecasts = poly_model.predict(X_future_poly)
 
 # Displaying the predicted results
 predicted_df = pd.DataFrame({
@@ -99,31 +110,26 @@ predicted_df = pd.DataFrame({
     'Predicted Confirmed Rate': future_confirmed_rates
 })
 
-print("Predicted Values for 2024-2026:")
-for i, row in predicted_df.iterrows():
-    print(f"Year: {row['Year']}")
-    print(f"  Predicted GDP Growth Rate: {row['Predicted GDP Growth Rate']:.2f}%")
-    print(f"  Predicted Unemployment Rate: {row['Predicted Unemployment Rate']:.2f}%")
-    print(f"  Predicted Confirmed Cases: {row['Predicted Confirmed Rate']}\n")
+print("Predicted values for 2024-2026:")
+print(predicted_df)
 
-# Plotting the predictions in two groups
+# Plotting the predictions
 
-# Group 1: Forecasted GDP Growth Rate and Unemployment Rate
+# Plot 2: Predicted GDP Growth Rate, Unemployment Rate, and Predicted Confirmed Rate (2024-2026)
 plt.figure(figsize=(14, 12))
 
 plt.subplot(2, 1, 1)
-plt.plot(predicted_df['Year'], predicted_df['Predicted GDP Growth Rate'], marker='o', linestyle='-', label='Forecasted GDP Growth Rate', color='red')
-plt.plot(predicted_df['Year'], predicted_df['Predicted Unemployment Rate'], marker='x', linestyle='--', label='Forecasted Unemployment Rate', color='blue')
-plt.title('Forecasted GDP Growth Rate and Unemployment Rate (2024-2026)')
+plt.plot(predicted_df['Year'], predicted_df['Predicted GDP Growth Rate'], marker='o', linestyle='-', label='Predicted GDP Growth Rate', color='red')
+plt.plot(predicted_df['Year'], predicted_df['Predicted Unemployment Rate'], marker='x', linestyle='--', label='Predicted Unemployment Rate', color='blue')
+plt.title('Predicted GDP Growth Rate and Unemployment Rate (2024-2026)')
 plt.xlabel('Year')
 plt.ylabel('Rate (%)')
 plt.legend()
 plt.grid(True)
 
-# Group 2: Forecasted Confirmed Rate
 plt.subplot(2, 1, 2)
-plt.plot(predicted_df['Year'], predicted_df['Predicted Confirmed Rate'], marker='s', linestyle='--', label='Forecasted Confirmed Rate', color='green')
-plt.title('Forecasted Confirmed Case Rate (2024-2026)')
+plt.plot(predicted_df['Year'], predicted_df['Predicted Confirmed Rate'], marker='s', linestyle='-', label='Predicted Confirmed Rate', color='green')
+plt.title('Predicted Confirmed Case Rate (2024-2026)')
 plt.xlabel('Year')
 plt.ylabel('Confirmed Rate')
 plt.legend()
