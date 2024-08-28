@@ -1,6 +1,6 @@
 # ReadMe
 
-[87582eae-361c-448a-9442-e4d6ce24bcf8_Data.csv],[confirmed_cases_cumulative_daily.csv],[number_of_deaths_daily.csv],[vaccination_data5.xlsx] are the original files. [reshaped_economic_data.csv],[yearly_confirmed_cases.csv],[yearly_vaccination_totals.csv] are the files that are reshaped by extracting the data from the original files
+[87582eae-361c-448a-9442-e4d6ce24bcf8_Data.csv],[confirmed_cases_cumulative_daily.csv],[number_of_deaths_daily.csv],[vaccination_data5.xlsx] are the original files. [reshaped_economic_data.csv],[daily_average_confirmed_cases_no_decimal_corrected.csv],[yearly_vaccination_totals.csv] are the files that are reshaped by extracting the data from the original files
 
 This repository contains the cov_jp_2.py script, which analyzes the impact of the COVID-19 pandemic on Japan's economy and public health using historical data. The script examines the relationships between key economic indicators, such as GDP growth rate and unemployment rate, and COVID-19 confirmed cases for the years 2021 to 2023. It also predicts future trends for the years 2024 to 2026 using a linear regression model.
 
